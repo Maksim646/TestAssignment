@@ -15,6 +15,9 @@ import (
 	// "github.com/Maksim646/Bot/handler"
 	//"github.com/heetch/sqalx"
 	"github.com/Maksim646/TestAssignment/api/server/restapi/database/postgresql"
+	"github.com/Maksim646/TestAssignment/api/server/restapi/handler"
+	_songRepo "github.com/Maksim646/TestAssignment/api/server/restapi/model"
+	_songUsecase "github.com/Maksim646/TestAssignment/api/server/restapi/model"
 	"github.com/heetch/sqalx"
 	"github.com/jmoiron/sqlx"
 	"github.com/kelseyhightower/envconfig"
@@ -26,8 +29,8 @@ const (
 
 var config struct {
 	Addr          string `envconfig:"ADDR" default:":8095"`
-	PostgresURI   string `envconfig:"POSTGRES_URI" default:"postgres://postgres:postgres@localhost:5433/bot_db?sslmode=disable"`
-	MigrationsDir string `envconfig:"MIGRATIONS_DIR" default:"database/migrations"`
+	PostgresURI   string `envconfig:"POSTGRES_URI" default:"postgres://postgres:postgres@localhost:5434/test_db?sslmode=disable"`
+	MigrationsDir string `envconfig:"MIGRATIONS_DIR" default:"../database/postgresql/migrations"`
 }
 
 func main() {
@@ -61,12 +64,12 @@ func main() {
 
 	log.Println("db was initialized")
 
-	userRepo := _userRepo.New(sqalxConn)
-	userUsecase := _userUsecase.New(userRepo)
+	songRepo := _songRepo.New(sqalxConn)
+	songUsecase := _songUsecase.New(songRepo)
 
 	handler.New(
 		httpVersion,
-		userUsecase,
+		songUsecase,
 	)
 
 	server := http.Server{
