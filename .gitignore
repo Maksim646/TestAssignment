@@ -1,0 +1,7 @@
+.vscode/
+vendor/.DS_Store
+zap.log
+docker-compose.over.yml
+docker-compose.yml
+Makefile
+Makefile
