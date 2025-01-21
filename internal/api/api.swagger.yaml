@@ -20,7 +20,7 @@ produces:
 paths:
   /song:
     post:
-      summary: Add Song
+      summary: Create Song
       operationId: CreateSong
       tags: 
         - Song
@@ -65,6 +65,16 @@ definitions:
     properties:
       message:
         type: string
+
+  Principal:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+      role:
+        type: integer
+        readOnly: true
 
   CreateSongBody:
     type: object

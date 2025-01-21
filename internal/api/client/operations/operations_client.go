@@ -62,7 +62,7 @@ type ClientService interface {
 }
 
 /*
-CreateSong adds song
+CreateSong creates song
 */
 func (a *Client) CreateSong(params *CreateSongParams, opts ...ClientOption) (*CreateSongOK, error) {
 	// TODO: Validate the params before sending

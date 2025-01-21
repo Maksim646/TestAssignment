@@ -36,7 +36,7 @@ func init() {
         "tags": [
           "Song"
         ],
-        "summary": "Add Song",
+        "summary": "Create Song",
         "operationId": "CreateSong",
         "parameters": [
           {
@@ -108,6 +108,19 @@ func init() {
       "properties": {
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "role": {
+          "type": "integer",
+          "readOnly": true
         }
       }
     }
@@ -139,7 +152,7 @@ func init() {
         "tags": [
           "Song"
         ],
-        "summary": "Add Song",
+        "summary": "Create Song",
         "operationId": "CreateSong",
         "parameters": [
           {
@@ -211,6 +224,19 @@ func init() {
       "properties": {
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "role": {
+          "type": "integer",
+          "readOnly": true
         }
       }
     }

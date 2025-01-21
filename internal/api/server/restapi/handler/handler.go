@@ -1,19 +1,13 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	"strings"
 
-	//"strings"
-
-	"encoding/json"
-
-	// "github.com/Maksim646/space_vpx_satellite/internal/api/definition"
-	// "github.com/Maksim646/space_vpx_satellite/internal/model"
-	// "github.com/Maksim646/space_vpx_satellite/pkg/jsonwebtoken"
 	"go.uber.org/zap"
 
-	// "github.com/Maksim646/TestAssignment/internal/api/server/restapi"
+	"github.com/Maksim646/TestAssignment/internal/api/definition"
 	"github.com/Maksim646/TestAssignment/internal/api/server/restapi/api"
 	"github.com/Maksim646/TestAssignment/internal/model"
 	"github.com/go-openapi/loads"
@@ -53,7 +47,10 @@ func New(
 	router := api.NewTestAssignmentBackendServiceAPI(swagger)
 	router.UseSwaggerUI()
 	router.Logger = zap.S().Infof
-	// router.BearerAuth = h.ValidateHeader
+	//router.BearerAuth = h.ValidateHeader
+
+	// SONG
+	router.CreateSongHandler = api.CreateSongHandlerFunc(h.CreateSongHandler)
 
 	h.router = router.Serve(nil)
 
@@ -61,37 +58,40 @@ func New(
 }
 
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	zap.L().Error("server http request")
+	zap.L().Info("Received HTTP request", zap.String("method", r.Method), zap.String("path", r.URL.Path))
+
 	if h.router == nil {
 		zap.L().Error("h.router is nil")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	zap.L().Error("h.router is not nil")
+
+	zap.L().Info("h.router is not nil, processing request")
 	h.router.ServeHTTP(w, r)
 }
 
-// func (h *Handler) ValidateHeader(bearerHeader string) (*definition.Principal, error) {
-// 	ctx := context.Background()
+func (h *Handler) ValidateHeader(bearerHeader string) (*definition.Principal, error) {
+	// ctx := context.Background()
 
-// 	bearerToken := strings.TrimPrefix(bearerHeader, "Bearer ")
-// 	userID, roleID, err := jsonwebtoken.ParseToken(bearerToken, h.jwtSigninKey)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	// bearerToken := strings.TrimPrefix(bearerHeader, "Bearer ")
+	// userID, roleID, err := jsonwebtoken.ParseToken(bearerToken, h.jwtSigninKey)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-// 	if roleID == 0 {
-// 		_, err = h.userUsecase.GetUserByID(ctx, userID)
-// 		if err != nil {
-// 			return nil, err
-// 		}
+	// if roleID == 0 {
+	// 	_, err = h.userUsecase.GetUserByID(ctx, userID)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-// 	} else {
-// 		_, err = h.adminUsecase.GetAdminByID(ctx, userID)
-// 		if err != nil {
-// 			return nil, err
-// 		}
+	// } else {
+	// 	_, err = h.adminUsecase.GetAdminByID(ctx, userID)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-// 	}
+	// }
 
-// 	return &definition.Principal{ID: userID, Role: roleID}, nil
-// }
+	return nil, nil //, Role: roleID &definition.Principal{ID: userID}
+}

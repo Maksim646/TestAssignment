@@ -32,7 +32,7 @@ func NewCreateSong(ctx *middleware.Context, handler CreateSongHandler) *CreateSo
 /*
 	CreateSong swagger:route POST /song Song createSong
 
-Add Song
+Create Song
 */
 type CreateSong struct {
 	Context *middleware.Context

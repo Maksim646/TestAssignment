@@ -2,33 +2,25 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
-
 	"os"
 	"os/signal"
 	"syscall"
-
 	"time"
+
+	"github.com/heetch/sqalx"
+	"github.com/jmoiron/sqlx"
+	"github.com/justinas/alice"
+	"github.com/kelseyhightower/envconfig"
+	"go.uber.org/zap"
 
 	"github.com/Maksim646/TestAssignment/internal/api/server/restapi/handler"
 	"github.com/Maksim646/TestAssignment/internal/database/postgresql"
-	"github.com/justinas/alice"
+	"github.com/Maksim646/TestAssignment/pkg/logger"
 
 	_songRepo "github.com/Maksim646/TestAssignment/internal/domain/song/repository/postgresql"
 	_songUsecase "github.com/Maksim646/TestAssignment/internal/domain/song/usecase"
-	"github.com/Maksim646/TestAssignment/pkg/logger"
-	"github.com/heetch/sqalx"
-	"github.com/jmoiron/sqlx"
-	"github.com/kelseyhightower/envconfig"
-	"go.uber.org/zap"
-	// _adminRepo "github.com/Maksim646/space_vpx_satellite/internal/domain/admin/repository/postgresql"
-	// _adminUsecase "github.com/Maksim646/space_vpx_satellite/internal/domain/admin/usecase"
-	// _projectRepo "github.com/Maksim646/space_vpx_satellite/internal/domain/project/repository/postgresql"
-	// _projectUsecase "github.com/Maksim646/space_vpx_satellite/internal/domain/project/usecase"
-	// _chassisRepo "github.com/Maksim646/space_vpx_satellite/internal/domain/chassis/repository/postgresql"
-	// _chassisUsecase "github.com/Maksim646/space_vpx_satellite/internal/domain/chassis/usecase"
 )
 
 const (
@@ -107,7 +99,6 @@ func main() {
 
 	chain := alice.New(appHandler.WsMiddleware).Then(appHandler)
 	if chain == nil {
-		fmt.Println(chain)
 	}
 	server := http.Server{
 		Handler: chain,
