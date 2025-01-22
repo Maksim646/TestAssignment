@@ -40,7 +40,7 @@ func init() {
         "operationId": "CreateSong",
         "parameters": [
           {
-            "description": "Create song Body",
+            "description": "Create Song Body",
             "name": "CreateSong",
             "in": "body",
             "required": true,
@@ -51,7 +51,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "Register Response",
+            "description": "Create Song Response",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -62,14 +62,218 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "403": {
-            "description": "Forbidden",
+          "422": {
+            "description": "Unprocessable Entity",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/song/{id}": {
+      "delete": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Delete Song",
+        "operationId": "DeleteSong",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Song Response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Update Song",
+        "operationId": "UpdateSong",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Create Song Body",
+            "name": "UpdateSong",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSongBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Song Response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/song/{id}/verse": {
+      "get": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Get Song Verse",
+        "operationId": "GetSongVerse",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "offset",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Song Verse Response",
+            "schema": {
+              "$ref": "#/definitions/SongVersesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/songs": {
+      "get": {
+        "tags": [
+          "Songs"
+        ],
+        "summary": "Get Songs",
+        "operationId": "GetSongs",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "offset",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Name",
+            "name": "FilterSongByName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Group",
+            "name": "FilterSongByGroup",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Text",
+            "name": "FilterSongByText",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Release Date",
+            "name": "FilterSongByReleaseDate",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Link",
+            "name": "FilterSongByLink",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Songs Response",
+            "schema": {
+              "$ref": "#/definitions/Songs"
+            }
+          },
+          "400": {
+            "description": "Bad request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -111,25 +315,95 @@ func init() {
         }
       }
     },
-    "Principal": {
+    "Song": {
       "type": "object",
+      "required": [
+        "release_date",
+        "text",
+        "link"
+      ],
       "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
+        "group": {
+          "type": "string"
         },
-        "role": {
-          "type": "integer",
-          "readOnly": true
+        "id": {
+          "type": "integer"
+        },
+        "link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "release_date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
         }
       }
-    }
-  },
-  "securityDefinitions": {
-    "Bearer": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
+    },
+    "SongVerse": {
+      "type": "object",
+      "required": [
+        "verse"
+      ],
+      "properties": {
+        "verse": {
+          "type": "string"
+        }
+      }
+    },
+    "SongVersesResponse": {
+      "type": "object",
+      "required": [
+        "verses"
+      ],
+      "properties": {
+        "verses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SongVerse"
+          }
+        }
+      }
+    },
+    "Songs": {
+      "type": "object",
+      "required": [
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "songs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Song"
+          }
+        }
+      }
+    },
+    "UpdateSongBody": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "release_date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
     }
   }
 }`))
@@ -156,7 +430,7 @@ func init() {
         "operationId": "CreateSong",
         "parameters": [
           {
-            "description": "Create song Body",
+            "description": "Create Song Body",
             "name": "CreateSong",
             "in": "body",
             "required": true,
@@ -167,7 +441,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "Register Response",
+            "description": "Create Song Response",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -178,14 +452,222 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "403": {
-            "description": "Forbidden",
+          "422": {
+            "description": "Unprocessable Entity",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/song/{id}": {
+      "delete": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Delete Song",
+        "operationId": "DeleteSong",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Song Response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Update Song",
+        "operationId": "UpdateSong",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Create Song Body",
+            "name": "UpdateSong",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSongBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Song Response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/song/{id}/verse": {
+      "get": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Get Song Verse",
+        "operationId": "GetSongVerse",
+        "parameters": [
+          {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "offset",
+            "in": "query",
+            "required": true
+          },
+          {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "ID of song",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Song Verse Response",
+            "schema": {
+              "$ref": "#/definitions/SongVersesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/songs": {
+      "get": {
+        "tags": [
+          "Songs"
+        ],
+        "summary": "Get Songs",
+        "operationId": "GetSongs",
+        "parameters": [
+          {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "offset",
+            "in": "query",
+            "required": true
+          },
+          {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Offset Configs",
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Name",
+            "name": "FilterSongByName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Group",
+            "name": "FilterSongByGroup",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Text",
+            "name": "FilterSongByText",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Release Date",
+            "name": "FilterSongByReleaseDate",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filter Song By Link",
+            "name": "FilterSongByLink",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Songs Response",
+            "schema": {
+              "$ref": "#/definitions/Songs"
+            }
+          },
+          "400": {
+            "description": "Bad request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -227,25 +709,95 @@ func init() {
         }
       }
     },
-    "Principal": {
+    "Song": {
       "type": "object",
+      "required": [
+        "release_date",
+        "text",
+        "link"
+      ],
       "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
+        "group": {
+          "type": "string"
         },
-        "role": {
-          "type": "integer",
-          "readOnly": true
+        "id": {
+          "type": "integer"
+        },
+        "link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "release_date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
         }
       }
-    }
-  },
-  "securityDefinitions": {
-    "Bearer": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
+    },
+    "SongVerse": {
+      "type": "object",
+      "required": [
+        "verse"
+      ],
+      "properties": {
+        "verse": {
+          "type": "string"
+        }
+      }
+    },
+    "SongVersesResponse": {
+      "type": "object",
+      "required": [
+        "verses"
+      ],
+      "properties": {
+        "verses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SongVerse"
+          }
+        }
+      }
+    },
+    "Songs": {
+      "type": "object",
+      "required": [
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "songs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Song"
+          }
+        }
+      }
+    },
+    "UpdateSongBody": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "release_date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
     }
   }
 }`))

@@ -1,23 +1,17 @@
 swagger: '2.0'
-
 info:
   title: Test Assignment Backend Service
-  version: development
+  version: 'development'
   description: Test Assignment WebSite Backend Service
-
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
 
 consumes:
   - application/json
-
 produces:
   - application/json
 
 paths:
+
+### SONGS
   /song:
     post:
       summary: Create Song
@@ -26,24 +20,20 @@ paths:
         - Song
       parameters:
         - name: CreateSong
-          description: Create song Body
+          description: Create Song Body
           in: body
           required: true
           schema:
             $ref: '#/definitions/CreateSongBody'
       responses:
         200:
-          description: Register Response
+          description: Create Song Response
           schema:
             $ref: '#/definitions/Error'
         400:
           description: Bad request
           schema:
             $ref: '#/definitions/Error'
-        403:
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/Error' 
         422:
           description: Unprocessable Entity
           schema:
@@ -52,6 +42,162 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/Error'
+
+  /song/{id}:
+    delete:
+      summary: Delete Song
+      operationId: DeleteSong
+      tags: 
+        - Song
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: ID of song
+      responses:
+        200:
+          description: Delete Song Response
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'      
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+    patch:
+      summary: Update Song
+      operationId: UpdateSong
+      tags: 
+        - Song
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: ID of song
+        - name: UpdateSong
+          description: Create Song Body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateSongBody'
+      responses:
+        200:
+          description: Update Song Response
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'      
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /song/{id}/verse:
+    get:
+      summary: Get Song Verse
+      operationId: GetSongVerse
+      tags: 
+        - Song
+      parameters:
+        - in: query
+          required: true
+          name: offset
+          type: integer
+          description: Offset Configs
+          minimum: 0
+          required: true
+        - in: query
+          required: true
+          name: limit
+          type: integer
+          description: Offset Configs
+          minimum: 0
+          required: true
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: ID of song
+      responses:
+        200:
+          description: Get Song Verse Response
+          schema:
+            $ref: '#/definitions/SongVersesResponse'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'    
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+
+
+  /songs:
+    get:
+      summary: Get Songs
+      operationId: GetSongs
+      tags: 
+        - Songs
+      parameters:
+        - in: query
+          required: true
+          name: offset
+          type: integer
+          description: Offset Configs
+          minimum: 0
+          required: true
+        - in: query
+          required: true
+          name: limit
+          type: integer
+          description: Offset Configs
+          minimum: 0
+          required: true
+        - in: query
+          name: FilterSongByName
+          description: Filter Song By Name
+          type: string
+        - in: query
+          name: FilterSongByGroup
+          description: Filter Song By Group
+          type: string
+        - in: query
+          name: FilterSongByText
+          description: Filter Song By Text
+          type: string
+        - in: query
+          name: FilterSongByReleaseDate
+          description: Filter Song By Release Date
+          type: string
+        - in: query
+          name: FilterSongByLink
+          description: Filter Song By Link
+          type: string
+      responses:
+        200:
+          description: Get Songs Response
+          schema:
+            $ref: '#/definitions/Songs'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'     
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    
 
 
 
@@ -66,16 +212,6 @@ definitions:
       message:
         type: string
 
-  Principal:
-    type: object
-    properties:
-      id:
-        type: string
-        readOnly: true
-      role:
-        type: integer
-        readOnly: true
-
   CreateSongBody:
     type: object
     required:
@@ -86,4 +222,71 @@ definitions:
         type: string
       song:
         type: string
+
+  Song:
+    type: object
+    required:
+      - release_date
+      - text
+      - link
+    properties:
+      id:
+        type: integer
+      release_date:
+        type: string
+      name:
+        type: string
+      group:
+        type: string
+      link:
+        type: string
+      text:
+        type: string
+
+  Songs:
+    type: object
+    required:
+      - count
+    properties:
+      count:
+        type: integer
+      songs:
+        type: array
+        items:
+          $ref: "#/definitions/Song"
+
+  UpdateSongBody:
+    type: object
+    properties:
+      release_date:
+        type: string
+      name:
+        type: string
+      group:
+        type: string
+      link:
+        type: string
+      text:
+        type: string
+
+
+  SongVerse:
+    type: object
+    required:
+      - verse
+    properties:
+      verse:
+        type: string
+
+  SongVersesResponse:
+    type: object
+    required:
+      - verses
+    properties:
+      verses:
+        type: array
+        items:
+          $ref: '#/definitions/SongVerse'
+
+      
     

@@ -34,7 +34,7 @@ type CreateSongParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*Create song Body
+	/*Create Song Body
 	  Required: true
 	  In: body
 	*/

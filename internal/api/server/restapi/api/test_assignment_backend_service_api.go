@@ -45,6 +45,18 @@ func NewTestAssignmentBackendServiceAPI(spec *loads.Document) *TestAssignmentBac
 		CreateSongHandler: CreateSongHandlerFunc(func(params CreateSongParams) middleware.Responder {
 			return middleware.NotImplemented("operation CreateSong has not yet been implemented")
 		}),
+		DeleteSongHandler: DeleteSongHandlerFunc(func(params DeleteSongParams) middleware.Responder {
+			return middleware.NotImplemented("operation DeleteSong has not yet been implemented")
+		}),
+		GetSongVerseHandler: GetSongVerseHandlerFunc(func(params GetSongVerseParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetSongVerse has not yet been implemented")
+		}),
+		GetSongsHandler: GetSongsHandlerFunc(func(params GetSongsParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetSongs has not yet been implemented")
+		}),
+		UpdateSongHandler: UpdateSongHandlerFunc(func(params UpdateSongParams) middleware.Responder {
+			return middleware.NotImplemented("operation UpdateSong has not yet been implemented")
+		}),
 	}
 }
 
@@ -83,6 +95,14 @@ type TestAssignmentBackendServiceAPI struct {
 
 	// CreateSongHandler sets the operation handler for the create song operation
 	CreateSongHandler CreateSongHandler
+	// DeleteSongHandler sets the operation handler for the delete song operation
+	DeleteSongHandler DeleteSongHandler
+	// GetSongVerseHandler sets the operation handler for the get song verse operation
+	GetSongVerseHandler GetSongVerseHandler
+	// GetSongsHandler sets the operation handler for the get songs operation
+	GetSongsHandler GetSongsHandler
+	// UpdateSongHandler sets the operation handler for the update song operation
+	UpdateSongHandler UpdateSongHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -162,6 +182,18 @@ func (o *TestAssignmentBackendServiceAPI) Validate() error {
 
 	if o.CreateSongHandler == nil {
 		unregistered = append(unregistered, "CreateSongHandler")
+	}
+	if o.DeleteSongHandler == nil {
+		unregistered = append(unregistered, "DeleteSongHandler")
+	}
+	if o.GetSongVerseHandler == nil {
+		unregistered = append(unregistered, "GetSongVerseHandler")
+	}
+	if o.GetSongsHandler == nil {
+		unregistered = append(unregistered, "GetSongsHandler")
+	}
+	if o.UpdateSongHandler == nil {
+		unregistered = append(unregistered, "UpdateSongHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -255,6 +287,22 @@ func (o *TestAssignmentBackendServiceAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/song"] = NewCreateSong(o.context, o.CreateSongHandler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/song/{id}"] = NewDeleteSong(o.context, o.DeleteSongHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/song/{id}/verse"] = NewGetSongVerse(o.context, o.GetSongVerseHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/songs"] = NewGetSongs(o.context, o.GetSongsHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/song/{id}"] = NewUpdateSong(o.context, o.UpdateSongHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

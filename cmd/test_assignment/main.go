@@ -32,9 +32,6 @@ var config struct {
 	LogLevel      string `envconfig:"LOG_LEVEL"`
 	MigrationsDir string `envconfig:"MIGRATIONS_DIR" default:"../../internal/database/postgresql/migrations"`
 	PostgresURI   string `envconfig:"POSTGRES_URI" default:"postgres://postgres:12345@localhost:5448/test_assignment_db?sslmode=disable"`
-
-	HashSalt     string `envconfig:"HASH_SALT" default:"MaximAdamov2002"`
-	JWTSigninKey string `envconfig:"JWT_SIGNIN_KEY" default:"MaximAdamov2002"`
 }
 
 func main() {
@@ -76,25 +73,10 @@ func main() {
 	songRepo := _songRepo.New(sqalxConn)
 	songUsecase := _songUsecase.New(songRepo)
 
-	// adminRepo := _adminRepo.New(sqalxConn)
-	// adminUsecase := _adminUsecase.New(adminRepo)
-
-	// projectRepo := _projectRepo.New(sqalxConn)
-	// projectUsecase := _projectUsecase.New(projectRepo)
-
-	// chassisRepo := _chassisRepo.New(sqalxConn)
-	// chassisUsecase := _chassisUsecase.New(chassisRepo)
-
 	appHandler := handler.New(
-		// userUsecase,
-		// adminUsecase,
-		// projectUsecase,
-		// chassisUsecase,
 		songUsecase,
 
 		httpVersion,
-		config.HashSalt,
-		config.JWTSigninKey,
 	)
 
 	chain := alice.New(appHandler.WsMiddleware).Then(appHandler)
@@ -111,19 +93,15 @@ func main() {
 		}
 	}()
 
-	// Ожидание сигнала завершения (SIGINT, SIGTERM)
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-	// Блокируем `main`, ожидая сигнала
 	<-quit
 	zap.L().Info("Shutdown server ...")
 
-	// Создаем таймаут для выключения сервера
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	// Завершение сервера
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatal("Server shutdown:", err)
 	}

@@ -7,27 +7,23 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/Maksim646/TestAssignment/internal/api/definition"
+	//"github.com/Maksim646/TestAssignment/internal/api/definition"
+	"github.com/Maksim646/TestAssignment/internal/api/server/restapi"
 	"github.com/Maksim646/TestAssignment/internal/api/server/restapi/api"
 	"github.com/Maksim646/TestAssignment/internal/model"
 	"github.com/go-openapi/loads"
-	"github.com/go-swagger/go-swagger/examples/oauth2/restapi"
 )
 
 type Handler struct {
 	songUsecase model.ISongUsecase
 
-	router       http.Handler
-	HashSalt     string
-	jwtSigninKey string
+	router http.Handler
 }
 
 func New(
 	songUsecase model.ISongUsecase,
 
 	version string,
-	HashSalt string,
-	jwtSigninKey string,
 ) *Handler {
 
 	withChangedVersion := strings.ReplaceAll(string(restapi.SwaggerJSON), "development", version)
@@ -38,9 +34,6 @@ func New(
 
 	h := &Handler{
 		songUsecase: songUsecase,
-
-		HashSalt:     HashSalt,
-		jwtSigninKey: jwtSigninKey,
 	}
 
 	zap.L().Error("server http handler request")
@@ -51,6 +44,12 @@ func New(
 
 	// SONG
 	router.CreateSongHandler = api.CreateSongHandlerFunc(h.CreateSongHandler)
+	router.GetSongVerseHandler = api.GetSongVerseHandlerFunc(h.GetSongVerseHandler)
+	router.DeleteSongHandler = api.DeleteSongHandlerFunc(h.DeleteSongHandler)
+	router.UpdateSongHandler = api.UpdateSongHandlerFunc(h.UpdateSongHAndler)
+
+	// SONGS
+	router.GetSongsHandler = api.GetSongsHandlerFunc(h.GetSongsHandler)
 
 	h.router = router.Serve(nil)
 
@@ -70,28 +69,28 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.router.ServeHTTP(w, r)
 }
 
-func (h *Handler) ValidateHeader(bearerHeader string) (*definition.Principal, error) {
-	// ctx := context.Background()
+// func (h *Handler) ValidateHeader(bearerHeader string) (*definition.Principal, error) {
+// ctx := context.Background()
 
-	// bearerToken := strings.TrimPrefix(bearerHeader, "Bearer ")
-	// userID, roleID, err := jsonwebtoken.ParseToken(bearerToken, h.jwtSigninKey)
-	// if err != nil {
-	// 	return nil, err
-	// }
+// bearerToken := strings.TrimPrefix(bearerHeader, "Bearer ")
+// userID, roleID, err := jsonwebtoken.ParseToken(bearerToken, h.jwtSigninKey)
+// if err != nil {
+// 	return nil, err
+// }
 
-	// if roleID == 0 {
-	// 	_, err = h.userUsecase.GetUserByID(ctx, userID)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
+// if roleID == 0 {
+// 	_, err = h.userUsecase.GetUserByID(ctx, userID)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	// } else {
-	// 	_, err = h.adminUsecase.GetAdminByID(ctx, userID)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
+// } else {
+// 	_, err = h.adminUsecase.GetAdminByID(ctx, userID)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	// }
+// }
 
-	return nil, nil //, Role: roleID &definition.Principal{ID: userID}
-}
+// 	return nil, nil //, Role: roleID &definition.Principal{ID: userID}
+// }

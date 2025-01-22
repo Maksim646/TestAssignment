@@ -65,7 +65,7 @@ type CreateSongParams struct {
 
 	/* CreateSong.
 
-	   Create song Body
+	   Create Song Body
 	*/
 	CreateSong *models.CreateSongBody
 

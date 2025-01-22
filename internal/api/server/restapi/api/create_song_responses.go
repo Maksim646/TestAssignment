@@ -17,7 +17,7 @@ import (
 const CreateSongOKCode int = 200
 
 /*
-CreateSongOK Register Response
+CreateSongOK Create Song Response
 
 swagger:response createSongOK
 */
@@ -95,51 +95,6 @@ func (o *CreateSongBadRequest) SetPayload(payload *models.Error) {
 func (o *CreateSongBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(400)
-	if o.Payload != nil {
-		payload := o.Payload
-		if err := producer.Produce(rw, payload); err != nil {
-			panic(err) // let the recovery middleware deal with this
-		}
-	}
-}
-
-// CreateSongForbiddenCode is the HTTP code returned for type CreateSongForbidden
-const CreateSongForbiddenCode int = 403
-
-/*
-CreateSongForbidden Forbidden
-
-swagger:response createSongForbidden
-*/
-type CreateSongForbidden struct {
-
-	/*
-	  In: Body
-	*/
-	Payload *models.Error `json:"body,omitempty"`
-}
-
-// NewCreateSongForbidden creates CreateSongForbidden with default headers values
-func NewCreateSongForbidden() *CreateSongForbidden {
-
-	return &CreateSongForbidden{}
-}
-
-// WithPayload adds the payload to the create song forbidden response
-func (o *CreateSongForbidden) WithPayload(payload *models.Error) *CreateSongForbidden {
-	o.Payload = payload
-	return o
-}
-
-// SetPayload sets the payload to the create song forbidden response
-func (o *CreateSongForbidden) SetPayload(payload *models.Error) {
-	o.Payload = payload
-}
-
-// WriteResponse to the client
-func (o *CreateSongForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.WriteHeader(403)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

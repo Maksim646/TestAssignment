@@ -36,12 +36,6 @@ func (o *CreateSongReader) ReadResponse(response runtime.ClientResponse, consume
 			return nil, err
 		}
 		return nil, result
-	case 403:
-		result := NewCreateSongForbidden()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	case 422:
 		result := NewCreateSongUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -67,7 +61,7 @@ func NewCreateSongOK() *CreateSongOK {
 /*
 CreateSongOK describes a response with status code 200, with default header values.
 
-Register Response
+Create Song Response
 */
 type CreateSongOK struct {
 	Payload *models.Error
@@ -188,76 +182,6 @@ func (o *CreateSongBadRequest) GetPayload() *models.Error {
 }
 
 func (o *CreateSongBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
-
-	return nil
-}
-
-// NewCreateSongForbidden creates a CreateSongForbidden with default headers values
-func NewCreateSongForbidden() *CreateSongForbidden {
-	return &CreateSongForbidden{}
-}
-
-/*
-CreateSongForbidden describes a response with status code 403, with default header values.
-
-Forbidden
-*/
-type CreateSongForbidden struct {
-	Payload *models.Error
-}
-
-// IsSuccess returns true when this create song forbidden response has a 2xx status code
-func (o *CreateSongForbidden) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this create song forbidden response has a 3xx status code
-func (o *CreateSongForbidden) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create song forbidden response has a 4xx status code
-func (o *CreateSongForbidden) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this create song forbidden response has a 5xx status code
-func (o *CreateSongForbidden) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create song forbidden response a status code equal to that given
-func (o *CreateSongForbidden) IsCode(code int) bool {
-	return code == 403
-}
-
-// Code gets the status code for the create song forbidden response
-func (o *CreateSongForbidden) Code() int {
-	return 403
-}
-
-func (o *CreateSongForbidden) Error() string {
-	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[POST /song][%d] createSongForbidden %s", 403, payload)
-}
-
-func (o *CreateSongForbidden) String() string {
-	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[POST /song][%d] createSongForbidden %s", 403, payload)
-}
-
-func (o *CreateSongForbidden) GetPayload() *models.Error {
-	return o.Payload
-}
-
-func (o *CreateSongForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Error)
 

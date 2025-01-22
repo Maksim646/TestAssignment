@@ -58,6 +58,14 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	CreateSong(params *CreateSongParams, opts ...ClientOption) (*CreateSongOK, error)
 
+	DeleteSong(params *DeleteSongParams, opts ...ClientOption) (*DeleteSongOK, error)
+
+	GetSongVerse(params *GetSongVerseParams, opts ...ClientOption) (*GetSongVerseOK, error)
+
+	GetSongs(params *GetSongsParams, opts ...ClientOption) (*GetSongsOK, error)
+
+	UpdateSong(params *UpdateSongParams, opts ...ClientOption) (*UpdateSongOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -96,6 +104,158 @@ func (a *Client) CreateSong(params *CreateSongParams, opts ...ClientOption) (*Cr
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for CreateSong: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+DeleteSong deletes song
+*/
+func (a *Client) DeleteSong(params *DeleteSongParams, opts ...ClientOption) (*DeleteSongOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteSongParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "DeleteSong",
+		Method:             "DELETE",
+		PathPattern:        "/song/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &DeleteSongReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteSongOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for DeleteSong: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+GetSongVerse gets song verse
+*/
+func (a *Client) GetSongVerse(params *GetSongVerseParams, opts ...ClientOption) (*GetSongVerseOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetSongVerseParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "GetSongVerse",
+		Method:             "GET",
+		PathPattern:        "/song/{id}/verse",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetSongVerseReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetSongVerseOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for GetSongVerse: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+GetSongs gets songs
+*/
+func (a *Client) GetSongs(params *GetSongsParams, opts ...ClientOption) (*GetSongsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetSongsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "GetSongs",
+		Method:             "GET",
+		PathPattern:        "/songs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetSongsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetSongsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for GetSongs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+UpdateSong updates song
+*/
+func (a *Client) UpdateSong(params *UpdateSongParams, opts ...ClientOption) (*UpdateSongOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSongParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "UpdateSong",
+		Method:             "PATCH",
+		PathPattern:        "/song/{id}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &UpdateSongReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSongOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for UpdateSong: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
