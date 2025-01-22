@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-	_ "fmt"
 	"strings"
 
 	"github.com/Maksim646/TestAssignment/internal/api/definition"
@@ -71,16 +69,12 @@ func (h *Handler) UpdateSongHAndler(req api.UpdateSongParams) middleware.Respond
 	zap.L().Info("update song request")
 	ctx := req.HTTPRequest.Context()
 
-	fmt.Println(req.ID)
-
 	song, err := h.songUsecase.GetSongByID(ctx, req.ID)
 	if err != nil {
 		return api.NewUpdateSongBadRequest().WithPayload(&definition.Error{
 			Message: &model.SongNotFound,
 		})
 	}
-
-	fmt.Println(song.ID, song.Name)
 
 	if req.UpdateSong.Name != "" {
 		song.Name.String = req.UpdateSong.Name
@@ -101,8 +95,6 @@ func (h *Handler) UpdateSongHAndler(req api.UpdateSongParams) middleware.Respond
 	if req.UpdateSong.Text != "" {
 		song.Text.String = req.UpdateSong.Text
 	}
-
-	fmt.Println(song.ID)
 
 	err = h.songUsecase.UpdateSong(ctx, song)
 	if err != nil {

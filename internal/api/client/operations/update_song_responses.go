@@ -55,7 +55,7 @@ func NewUpdateSongOK() *UpdateSongOK {
 /*
 UpdateSongOK describes a response with status code 200, with default header values.
 
-Delete Song Response
+Update Song Response
 */
 type UpdateSongOK struct {
 	Payload *models.Error

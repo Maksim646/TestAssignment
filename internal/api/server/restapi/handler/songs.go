@@ -55,7 +55,7 @@ func (h *Handler) GetSongsHandler(req api.GetSongsParams) middleware.Responder {
 func (h *Handler) SongsToDefinition(ctx context.Context, songs []model.Song) []*definition.Song {
 	songsData := make([]*definition.Song, len(songs))
 
-	for i, _ := range songs {
+	for i := range songs {
 		songsData[i] = &definition.Song{
 			ID:          songs[i].ID,
 			Name:        songs[i].Name.String,

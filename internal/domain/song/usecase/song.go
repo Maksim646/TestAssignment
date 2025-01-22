@@ -36,10 +36,6 @@ func (u *Usecase) GetCountByFilters(ctx context.Context, filters map[string]inte
 	return u.songRepository.GetCountByFilters(ctx, filters)
 }
 
-// func (u *Usecase) GetSongByID(ctx context.Context, songID int64) (model.Song, error) {
-// 	return u.songRepository.GetSongByID(ctx, songID)
-// }
-
 func (u *Usecase) UpdateSong(ctx context.Context, song model.Song) error {
 	return u.songRepository.UpdateSong(ctx, song)
 }

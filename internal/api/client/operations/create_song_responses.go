@@ -36,12 +36,6 @@ func (o *CreateSongReader) ReadResponse(response runtime.ClientResponse, consume
 			return nil, err
 		}
 		return nil, result
-	case 422:
-		result := NewCreateSongUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	case 500:
 		result := NewCreateSongInternalServerError()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -182,76 +176,6 @@ func (o *CreateSongBadRequest) GetPayload() *models.Error {
 }
 
 func (o *CreateSongBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
-
-	return nil
-}
-
-// NewCreateSongUnprocessableEntity creates a CreateSongUnprocessableEntity with default headers values
-func NewCreateSongUnprocessableEntity() *CreateSongUnprocessableEntity {
-	return &CreateSongUnprocessableEntity{}
-}
-
-/*
-CreateSongUnprocessableEntity describes a response with status code 422, with default header values.
-
-Unprocessable Entity
-*/
-type CreateSongUnprocessableEntity struct {
-	Payload *models.Error
-}
-
-// IsSuccess returns true when this create song unprocessable entity response has a 2xx status code
-func (o *CreateSongUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this create song unprocessable entity response has a 3xx status code
-func (o *CreateSongUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create song unprocessable entity response has a 4xx status code
-func (o *CreateSongUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this create song unprocessable entity response has a 5xx status code
-func (o *CreateSongUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create song unprocessable entity response a status code equal to that given
-func (o *CreateSongUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the create song unprocessable entity response
-func (o *CreateSongUnprocessableEntity) Code() int {
-	return 422
-}
-
-func (o *CreateSongUnprocessableEntity) Error() string {
-	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[POST /song][%d] createSongUnprocessableEntity %s", 422, payload)
-}
-
-func (o *CreateSongUnprocessableEntity) String() string {
-	payload, _ := json.Marshal(o.Payload)
-	return fmt.Sprintf("[POST /song][%d] createSongUnprocessableEntity %s", 422, payload)
-}
-
-func (o *CreateSongUnprocessableEntity) GetPayload() *models.Error {
-	return o.Payload
-}
-
-func (o *CreateSongUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Error)
 

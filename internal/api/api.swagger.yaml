@@ -33,11 +33,7 @@ paths:
         400:
           description: Bad request
           schema:
-            $ref: '#/definitions/Error'
-        422:
-          description: Unprocessable Entity
-          schema:
-            $ref: "#/definitions/Error"        
+            $ref: '#/definitions/Error'    
         500:
           description: Internal server error
           schema:
@@ -139,9 +135,6 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/Error'
-
-
-
 
   /songs:
     get:
@@ -268,7 +261,6 @@ definitions:
         type: string
       text:
         type: string
-
 
   SongVerse:
     type: object

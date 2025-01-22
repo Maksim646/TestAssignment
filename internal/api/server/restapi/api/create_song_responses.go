@@ -103,51 +103,6 @@ func (o *CreateSongBadRequest) WriteResponse(rw http.ResponseWriter, producer ru
 	}
 }
 
-// CreateSongUnprocessableEntityCode is the HTTP code returned for type CreateSongUnprocessableEntity
-const CreateSongUnprocessableEntityCode int = 422
-
-/*
-CreateSongUnprocessableEntity Unprocessable Entity
-
-swagger:response createSongUnprocessableEntity
-*/
-type CreateSongUnprocessableEntity struct {
-
-	/*
-	  In: Body
-	*/
-	Payload *models.Error `json:"body,omitempty"`
-}
-
-// NewCreateSongUnprocessableEntity creates CreateSongUnprocessableEntity with default headers values
-func NewCreateSongUnprocessableEntity() *CreateSongUnprocessableEntity {
-
-	return &CreateSongUnprocessableEntity{}
-}
-
-// WithPayload adds the payload to the create song unprocessable entity response
-func (o *CreateSongUnprocessableEntity) WithPayload(payload *models.Error) *CreateSongUnprocessableEntity {
-	o.Payload = payload
-	return o
-}
-
-// SetPayload sets the payload to the create song unprocessable entity response
-func (o *CreateSongUnprocessableEntity) SetPayload(payload *models.Error) {
-	o.Payload = payload
-}
-
-// WriteResponse to the client
-func (o *CreateSongUnprocessableEntity) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.WriteHeader(422)
-	if o.Payload != nil {
-		payload := o.Payload
-		if err := producer.Produce(rw, payload); err != nil {
-			panic(err) // let the recovery middleware deal with this
-		}
-	}
-}
-
 // CreateSongInternalServerErrorCode is the HTTP code returned for type CreateSongInternalServerError
 const CreateSongInternalServerErrorCode int = 500
 

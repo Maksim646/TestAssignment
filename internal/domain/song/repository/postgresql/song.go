@@ -4,8 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
-	_ "fmt"
 
 	postgresql "github.com/Maksim646/Bot/database/migrations/sql"
 	"github.com/Maksim646/TestAssignment/internal/model"
@@ -113,7 +111,6 @@ func (r *SongRepository) GetSongsByFilters(ctx context.Context, offset int64, li
 		return []model.Song{}, songsCount, err
 	}
 
-	fmt.Println(songsCount)
 	builder := r.GetSongBuilder()
 
 	builder = r.ApplyFilters(builder, filters)

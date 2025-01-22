@@ -62,12 +62,6 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -140,7 +134,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "Delete Song Response",
+            "description": "Update Song Response",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -452,12 +446,6 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -530,7 +518,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "Delete Song Response",
+            "description": "Update Song Response",
             "schema": {
               "$ref": "#/definitions/Error"
             }

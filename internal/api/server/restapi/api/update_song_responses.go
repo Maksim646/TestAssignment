@@ -17,7 +17,7 @@ import (
 const UpdateSongOKCode int = 200
 
 /*
-UpdateSongOK Delete Song Response
+UpdateSongOK Update Song Response
 
 swagger:response updateSongOK
 */
